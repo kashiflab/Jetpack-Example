@@ -1,45 +1,126 @@
 package com.example.jetpack
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.SubcomposeAsyncImage
+import coil.compose.rememberAsyncImagePainter
 import com.example.jetpack.ui.theme.JetpackExampleTheme
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
-            JetpackExampleTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    Greeting("Android")
-                }
-            }
+
+            Greeting("Kashif")
+
         }
     }
 }
 
 @Composable
 fun Greeting(name: String) {
-    Text(text = "Hello $name!", modifier = Modifier.padding(all = 10.dp))
+
+    Scaffold(
+        topBar = {
+            TopAppBar() {
+                Text("AppBar", modifier = Modifier.padding(start = 10.dp))
+            }
+        }
+    ) {
+        body(name)
+    }
+}
+
+@Composable
+fun body(name: String) {
+    val context = LocalContext.current
+    val shape = RoundedCornerShape(10)
+    SelectionContainer(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+            .background(color = Color.LightGray, shape)
+
+    ) {
+
+
+        Row(
+            modifier = Modifier
+                .padding(all = 8.dp)
+                .height(100.dp)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+//        Image(
+//            painter = rememberAsyncImagePainter(
+//                "https://instagram.flhe5-1.fna.fbcdn.net/v/t51.2885-19/271921836_1392141027884991_8387979883498782617_n.jpg?stp=dst-jpg_s320x320&_nc_ht=instagram.flhe5-1.fna.fbcdn.net&_nc_cat=103&_nc_ohc=_L3FKRXZGWMAX8-pjsB&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AT9vFMpGb3dN9pn8SR2tA-jRT7jPLf0ltU6buACV6dXSBw&oe=62BD485D&_nc_sid=8fd12b",
+//                contentScale = ContentScale.None
+//            ),
+//            contentDescription = null,
+//            modifier = Modifier.requiredSize(50.dp)
+//        )
+
+            Image(
+                painter = rememberAsyncImagePainter("https://instagram.flhe5-1.fna.fbcdn.net/v/t51.2885-19/271921836_1392141027884991_8387979883498782617_n.jpg?stp=dst-jpg_s320x320&_nc_ht=instagram.flhe5-1.fna.fbcdn.net&_nc_cat=103&_nc_ohc=_L3FKRXZGWMAX8-pjsB&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AT9vFMpGb3dN9pn8SR2tA-jRT7jPLf0ltU6buACV6dXSBw&oe=62BD485D&_nc_sid=8fd12b"),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(80.dp)
+                    .clip(shape = CircleShape)
+                    .clickable {
+                        Toast
+                            .makeText(
+                                context,
+                                "Showing toast....",
+                                Toast.LENGTH_SHORT
+                            )
+                            .show()
+                    }
+            )
+            Spacer(modifier = Modifier.width(12.dp))
+            Column(
+                modifier = Modifier.fillMaxHeight(),
+                horizontalAlignment = Alignment.Start,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(text = "Hello $name!")
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(text = "Hello I am second text")
+            }
+        }
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     JetpackExampleTheme {
-        Greeting("Android")
+        Greeting("Kashif")
     }
 }
