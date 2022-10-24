@@ -4,43 +4,55 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.SubcomposeAsyncImage
 import coil.compose.rememberAsyncImagePainter
+import com.example.jetpack.data.utils.ApiState
 import com.example.jetpack.ui.theme.JetpackExampleTheme
 import com.example.jetpack.ui.theme.Shapes
 import com.example.jetpack.ui.theme.Typography
+import com.example.jetpack.ui.viewmodel.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    private val mainViewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
 
-            Greeting("Kashif")
+//            Greeting("Kashif")
+            Scaffold(
+                topBar = {
+                    TopAppBar() {
+                        Text("JetPack-Example", modifier = Modifier.padding(start = 10.dp))
+                    }
+                }
+            ) {
+                when(val result = mainViewModel.response.value){
+                    ApiState.Empty -> Text("Empty")
+                    is ApiState.Error -> Text(result.toString())
+                    ApiState.Loading -> Text("Loading...")
+                    is ApiState.Success -> RecyclerView(paddingValues = it, result.data)
+                }
+            }
 
         }
     }
@@ -56,7 +68,7 @@ fun Greeting(name: String) {
             }
         }
     ) {
-        body(name)
+        body(it, name)
     }
 }
 
@@ -118,7 +130,7 @@ fun cardBody(name: String) {
 }
 
 @Composable
-fun body(name: String) {
+fun body(paddingValues: PaddingValues, name: String) {
     Column() {
         cardBody(name)
     }
