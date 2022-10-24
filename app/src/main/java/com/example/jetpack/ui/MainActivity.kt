@@ -1,4 +1,4 @@
-package com.example.jetpack
+package com.example.jetpack.ui
 
 import android.os.Bundle
 import android.widget.Toast
@@ -30,6 +30,8 @@ import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.rememberAsyncImagePainter
 import com.example.jetpack.ui.theme.JetpackExampleTheme
+import com.example.jetpack.ui.theme.Shapes
+import com.example.jetpack.ui.theme.Typography
 
 class MainActivity : ComponentActivity() {
 
@@ -59,18 +61,15 @@ fun Greeting(name: String) {
 }
 
 @Composable
-fun body(name: String) {
+fun cardBody(name: String) {
     val context = LocalContext.current
-    val shape = RoundedCornerShape(10)
     SelectionContainer(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
-            .background(color = Color.LightGray, shape)
+            .background(color = Color.LightGray, Shapes.small)
 
     ) {
-
-
         Row(
             modifier = Modifier
                 .padding(all = 8.dp)
@@ -88,7 +87,7 @@ fun body(name: String) {
 //        )
 
             Image(
-                painter = rememberAsyncImagePainter("https://instagram.flhe5-1.fna.fbcdn.net/v/t51.2885-19/271921836_1392141027884991_8387979883498782617_n.jpg?stp=dst-jpg_s320x320&_nc_ht=instagram.flhe5-1.fna.fbcdn.net&_nc_cat=103&_nc_ohc=_L3FKRXZGWMAX8-pjsB&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AT9vFMpGb3dN9pn8SR2tA-jRT7jPLf0ltU6buACV6dXSBw&oe=62BD485D&_nc_sid=8fd12b"),
+                painter = rememberAsyncImagePainter("https://media-exp1.licdn.com/dms/image/C4D03AQFgm_4ycQvVww/profile-displayphoto-shrink_100_100/0/1595601733861?e=1671062400&v=beta&t=ZK4tdYCmI91rUiGHCAJQltfwozFse-Z3FDeOr2Oe4BU"),
                 contentDescription = null,
                 modifier = Modifier
                     .size(80.dp)
@@ -111,9 +110,17 @@ fun body(name: String) {
             ) {
                 Text(text = "Hello $name!")
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = "Hello I am second text")
+                Text(text = "Hello I am second text", style = Typography.body2)
+
             }
         }
+    }
+}
+
+@Composable
+fun body(name: String) {
+    Column() {
+        cardBody(name)
     }
 }
 
