@@ -4,11 +4,11 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-//@Entity(tableName = "TvShow")
+@Entity(tableName = "TvShow")
 data class TvShowResponseItem(
-//    @PrimaryKey(autoGenerate = false)
+    @PrimaryKey(autoGenerate = false)
     val id: Int,
-//    @Embedded
+    @Embedded
     val image: Image,
     val name: String,
 
