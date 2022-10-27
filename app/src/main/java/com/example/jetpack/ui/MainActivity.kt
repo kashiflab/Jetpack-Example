@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.jetpack.data.utils.ApiState
 import com.example.jetpack.ui.theme.JetpackExampleTheme
@@ -42,14 +43,21 @@ class MainActivity : ComponentActivity() {
             Scaffold(
                 topBar = {
                     TopAppBar() {
-                        Text("JetPack-Example", modifier = Modifier.padding(start = 10.dp))
+                        Text("JetPack-Example", modifier = Modifier.padding(start = 10.dp),
+                            fontSize = 18.sp,
+                        )
                     }
                 }
             ) {
                 when(val result = mainViewModel.response.value){
                     ApiState.Empty -> Text("Empty")
                     is ApiState.Error -> Text(result.toString())
-                    ApiState.Loading -> Text("Loading...")
+                    ApiState.Loading -> Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        CircularProgressIndicator()
+                    }
                     is ApiState.Success -> RecyclerView(paddingValues = it, result.data)
                 }
             }
